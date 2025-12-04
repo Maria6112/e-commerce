@@ -14,9 +14,6 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection With MongoDB
-// mongoose.connect(
-//   "mongodb+srv://mariastefanian_db_user:59UghXNJi5xvLzOv@cluster0.elssyed.mongodb.net/e-commerce"
-// );
 
 mongoose.set("strictQuery", true);
 
