@@ -17,11 +17,24 @@
 .shopcategory-indexSort p span {
   font-weight: 600;
 }
-.shopcategory-products {
-  margin: 20px;
+/* .shopcategory-products {
+  width: 90%;
+  margin: auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   row-gap: 80px;
+  justify-content: center;
+  align-items: center;
+} */
+.shopcategory-products {
+  width: 90%;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px 60px; /* ← row-gap + column-gap */
+  justify-content: center;
+  justify-items: center; /* ← КЛЮЧЕВОЕ: центрирует каждый товар */
+  padding: 20px 0;
 }
 .shopcategory-loadmore {
   display: flex;

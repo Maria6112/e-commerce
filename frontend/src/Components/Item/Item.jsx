@@ -5,13 +5,18 @@ import "./Item.css";
 const Item = (props) => {
   // Фиксим URL фото
   const fixImageUrl = (imageUrl) => {
-    if (imageUrl.includes("localhost")) {
-      return imageUrl.replace(
-        "http://localhost:4000",
-        "https://e-commerce-2-kyct.onrender.com"
-      );
+    // Placeholder фото для портфолио
+    if (
+      !imageUrl ||
+      imageUrl.includes("404") ||
+      !imageUrl.startsWith("https://e-commerce-2-kyct")
+    ) {
+      return "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=Product";
     }
-    return imageUrl;
+    return imageUrl.replace(
+      "http://localhost:4000",
+      "https://e-commerce-2-kyct.onrender.com",
+    );
   };
 
   return (

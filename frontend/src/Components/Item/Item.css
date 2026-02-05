@@ -1,5 +1,7 @@
 .item {
   width: 280px;
+  /* justify-content: center;
+  align-items: center; */
 }
 .item img {
   width: 280px;
