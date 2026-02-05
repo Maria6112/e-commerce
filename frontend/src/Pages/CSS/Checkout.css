@@ -1,0 +1,362 @@
+/* ОСНОВНОЙ КОНТЕЙНЕР — ПО ЦЕНТРУ */
+.checkout {
+  max-width: 1000px;
+  margin: 40px auto; /* ← AUTO центрирует по горизонтали */
+  padding: 20px;
+}
+
+.checkout-page h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  text-align: center; /* ← Заголовок по центру */
+}
+
+.checkout-section {
+  margin: 40px 0 30px 0;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.checkout-section h2 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 колонки */
+  grid-template-rows: 72px 72px; /* 2 ряда по 72px (input 52px + ошибка 20px) */
+  gap: 16px;
+  align-items: start;
+}
+
+/* ВСЕ input — фиксированная высота 52px */
+.checkout-grid input {
+  height: 52px !important;
+  padding: 0 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.checkout-grid input:focus {
+  outline: none;
+  border: 2px solid black;
+}
+
+.form-field {
+  height: 52px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* КНОПКА */
+.checkout-btn {
+  background: #28a745;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.checkout-btn:hover {
+  background: #218838;
+}
+
+.input-error {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px; /* ПОД полем */
+  left: 0;
+  margin-top: 0;
+}
+
+/* SELECT */
+.country-select {
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.country-select:focus {
+  outline: none;
+  border: 2px solid black;
+}
+
+/* TELEPHONE — ТОЧНО 52px */
+.phone-input-container {
+  height: 52px !important;
+}
+
+.phone-input-container .react-tel-input {
+  height: 100%;
+}
+
+.phone-input-container .react-tel-input .form-control {
+  height: 52px !important;
+  margin-left: 0 !important;
+  padding-left: 50px !important;
+}
+
+.phone-input {
+  height: 52px !important;
+}
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.input-error {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+/* Delivery Options */
+.delivery-options {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.delivery-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  position: relative;
+}
+
+.delivery-card:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+.delivery-card.selected {
+  border-color: #007bff;
+  background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.2);
+}
+
+.delivery-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.delivery-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.delivery-icon {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+.delivery-info {
+  flex: 1;
+}
+
+.delivery-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.delivery-time {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.delivery-desc {
+  font-size: 13px;
+  color: #888;
+}
+
+.delivery-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+  min-width: 70px;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .delivery-options {
+    flex-direction: column;
+  }
+
+  .delivery-card {
+    padding: 16px;
+  }
+}
+
+/*review*/
+/* Review Order */
+.review-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.review-section h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px 0;
+}
+
+.review-item span:first-child {
+  color: #666;
+}
+
+.review-cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-total {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.total-final {
+  font-size: 20px;
+  padding-top: 12px;
+  border-top: 2px solid #007bff;
+}
+
+.review-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 15px 20px;
+  background: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+.empty-cart {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+.cart-items {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.review-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 16px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.checkout-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 768px) {
+  .checkout {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 52px 52px 72px 72px;
+  }
+
+  .form-field {
+    grid-row: auto;
+  }
+}

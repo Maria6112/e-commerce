@@ -1,11 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import "./CSS/ShopCategory.css";
 import { ShopContext } from "../Context/ShopContext";
-import dropdown_icon from "../Components/Assets/dropdown_icon.png";
+import sortProducts from "../utils/sortProducts.js";
+
+// import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item.jsx";
 
 const ShopCategory = (props) => {
   const { all_product } = useContext(ShopContext);
+  const [sortType, setSortType] = useState("");
+
+  const filteredProducts = useMemo(() => {
+    const products = all_product.filter(
+      (item) => item.category === props.category
+    );
+    return sortProducts(products, sortType);
+  }, [all_product, props.category, sortType]);
 
   return (
     <div className="shop-category">
@@ -15,26 +25,26 @@ const ShopCategory = (props) => {
           <span>Showing 1-12</span> out of 36 products
         </p>
         <div className="shopcategory-sort">
-          Sort by <img src={dropdown_icon} alt="dropdown_icon" />
+          <select onChange={(e) => setSortType(e.target.value)}>
+            <option value="">Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest</option>
+          </select>
+          {/* <img src={dropdown_icon} alt="dropdown_icon" /> */}
         </div>
       </div>
       <div className="shopcategory-products">
-        {all_product.map((item, i) => {
-          if (props.category === item.category) {
-            return (
-              <Item
-                key={i}
-                id={item.id}
-                name={item.name}
-                image={item.image}
-                new_price={item.new_price}
-                old_price={item.old_price}
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
+        {filteredProducts.map((item, i) => (
+          <Item
+            key={i}
+            id={item.id}
+            name={item.name}
+            image={item.image}
+            new_price={item.new_price}
+            old_price={item.old_price}
+          />
+        ))}
       </div>
       <div className="shopcategory-loadmore">Explore More</div>
     </div>

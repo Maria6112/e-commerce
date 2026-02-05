@@ -7,6 +7,8 @@ import { ShopContext } from "../../Context/ShopContext";
 const ProductDisplay = (props) => {
   const { product } = props;
   const { addToCart } = useContext(ShopContext);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [error, setError] = useState("");
 
   return (
     <div className="productdisplay">
@@ -48,26 +50,47 @@ const ProductDisplay = (props) => {
         <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-sizes">
-            <div>S</div>
+            {["S", "M", "L", "XL", "XXL"].map((size) => (
+              <div
+                key={size}
+                className={selectedSize === size ? "size selected" : "size"}
+                onClick={() => {
+                  setSelectedSize(size);
+                  setError("");
+                }}
+              >
+                {size}
+              </div>
+            ))}
+            {/* <div>S</div>
             <div>M</div>
             <div>L</div>
             <div>XL</div>
-            <div>XXL</div>
+            <div>XXL</div> */}
           </div>
         </div>
         <button
           onClick={() => {
-            addToCart(product.id);
+            if (!selectedSize) {
+              setError("Please choose Size");
+              return;
+            }
+            addToCart(product.id, selectedSize);
+            console.log(
+              `product ${product.id} added with ${selectedSize} size`
+            );
           }}
         >
           ADD TO CART
         </button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <p className="productdisplay-right-category">
-          <span>Category:</span>
-          Women , T-Shirt, Crop Top
+          <span>Category: </span>
+          {product.category} , T-Shirt, Crop Top
         </p>
         <p className="productdisplay-right-category">
-          <span>Tags:</span>
+          <span>Tags: </span>
           Modern , Latest
         </p>
       </div>

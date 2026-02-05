@@ -154,6 +154,7 @@ const Users = mongoose.model("Users", {
   },
   cartData: {
     type: Object,
+    default: {},
   },
   date: {
     type: Date,
@@ -178,7 +179,7 @@ app.post("/signup", async (req, res) => {
     name: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    cartData: cart,
+    cartData: {},
   });
 
   await user.save();
@@ -252,28 +253,85 @@ const fetchUser = async (req, res, next) => {
 
 //creating endpoint for adding products in cartdata
 app.post("/addtocart", fetchUser, async (req, res) => {
-  console.log("Added", req.body.itemId);
+  try {
+    const { itemId, size } = req.body;
 
-  let userData = await Users.findOne({ _id: req.user.id });
-  userData.cartData[req.body.itemId] += 1;
-  await Users.findOneAndUpdate(
-    { _id: req.user.id },
-    { cartData: userData.cartData }
-  );
-  res.send("Added");
+    if (!itemId || !size) {
+      return res.status(400).json({
+        success: false,
+        error: "itemId and size are required",
+      });
+    }
+
+    let userData = await Users.findById(req.user.id);
+
+    if (!userData.cartData) {
+      userData.cartData = {};
+    }
+
+    if (!userData.cartData[itemId]) {
+      userData.cartData[itemId] = {};
+    }
+
+    if (!userData.cartData[itemId][size]) {
+      userData.cartData[itemId][size] = 0;
+    }
+
+    userData.cartData[itemId][size] += 1;
+    userData.markModified("cartData");
+
+    await userData.save();
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("ADD TO CART ERROR:", err);
+    return res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
+  }
 });
 
 // creating endpoint to remove product from cart data
 app.post("/removefromcart", fetchUser, async (req, res) => {
-  console.log("removed", req.body.itemId);
-  let userData = await Users.findOne({ _id: req.user.id });
-  if (userData.cartData[req.body.itemId] > 0)
-    userData.cartData[req.body.itemId] -= 1;
-  await Users.findOneAndUpdate(
-    { _id: req.user.id },
-    { cartData: userData.cartData }
-  );
-  res.send("Removed");
+  try {
+    const { itemId, size } = req.body;
+
+    if (!itemId || !size) {
+      return res.status(400).json({
+        success: false,
+        error: "itemId and size are required",
+      });
+    }
+
+    const userData = await Users.findById(req.user.id);
+
+    if (userData.cartData?.[itemId] && userData.cartData[itemId][size] > 0) {
+      userData.cartData[itemId][size] -= 1;
+
+      // если стало 0 — удаляем размер
+      if (userData.cartData[itemId][size] === 0) {
+        delete userData.cartData[itemId][size];
+      }
+
+      // если у товара нет размеров — удаляем товар
+      if (Object.keys(userData.cartData[itemId]).length === 0) {
+        delete userData.cartData[itemId];
+      }
+
+      // 🔥 ВАЖНО
+      userData.markModified("cartData");
+      await userData.save();
+    }
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("REMOVE FROM CART ERROR:", err);
+    return res.status(500).json({
+      success: false,
+      error: "Server error",
+    });
+  }
 });
 
 // get cart data
@@ -286,6 +344,29 @@ app.post("/getcart", fetchUser, async (req, res) => {
   console.log("USER DATA:", userData);
 
   res.json(userData.cartData);
+});
+
+// get user data
+app.post("/getuser", fetchUser, async (req, res) => {
+  try {
+    console.log("USER ID:", req.user.id);
+    const userData = await Users.findById(req.user.id).select("-password"); // Без пароля
+    console.log("USER DATA:", userData);
+
+    // Форматируем для фронта (firstName, lastName из name)
+    const user = {
+      firstName: userData.name.split(" ")[0] || userData.name || "",
+      lastName: userData.name.split(" ").slice(1).join(" ") || "",
+      email: userData.email || "",
+      phone: "", // Добавь поле phone в схему Users, если нужно
+      isGuest: false,
+    };
+
+    res.json({ user });
+  } catch (error) {
+    console.error("GETUSER ERROR:", error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
 });
 
 app.listen(port, (error) => {
