@@ -3,20 +3,26 @@ import { Link } from "react-router-dom";
 import "./Item.css";
 
 const Item = (props) => {
-  // Фиксим URL фото
   const fixImageUrl = (imageUrl) => {
-    // Placeholder фото для портфолио
+    // Если фото недоступно — показываем placeholder
+    const placeholder =
+      "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=No+Image";
+
     if (
       !imageUrl ||
-      imageUrl.includes("404") ||
-      !imageUrl.startsWith("https://e-commerce-2-kyct")
+      imageUrl.includes("localhost") ||
+      imageUrl.includes("404")
     ) {
-      return "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=Product";
+      return placeholder;
     }
-    return imageUrl.replace(
-      "http://localhost:4000",
-      "https://e-commerce-2-kyct.onrender.com",
-    );
+
+    // Твой Render URL
+    return imageUrl.includes("e-commerce-2-kyct")
+      ? imageUrl
+      : imageUrl.replace(
+          "http://localhost:4000",
+          "https://e-commerce-2-kyct.onrender.com",
+        );
   };
 
   return (
@@ -25,7 +31,11 @@ const Item = (props) => {
         <img
           onClick={window.scrollTo(0, 0)}
           src={fixImageUrl(props.image)}
-          alt=""
+          alt={props.name}
+          onError={(e) => {
+            e.target.src =
+              "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=No+Image";
+          }}
         />
       </Link>
       <p>{props.name}</p>
