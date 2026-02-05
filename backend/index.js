@@ -54,7 +54,8 @@ app.post("/upload", upload.single("product"), (req, res) => {
   console.log(req.file);
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    // image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_url: `https://e-commerce-2-kyct.onrender.com/images/${req.file.filename}`,
   });
 });
 
