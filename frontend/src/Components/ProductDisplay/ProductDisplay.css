@@ -1,3 +1,8 @@
+.productdisplay-img-list img,
+.productdisplay-main-img {
+  background: #f5f5f5;
+}
+
 .productdisplay {
   display: flex;
   margin: 0px 170px;
@@ -7,20 +12,39 @@
   display: flex;
   gap: 17px;
 }
-
+.productdisplay-img {
+  width: 586px;
+  height: 700px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f5f5f5;
+}
 .productdisplay-img-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.productdisplay-img-list img {
+/* .productdisplay-img-list img {
   height: 163px;
+} */
+.productdisplay-img-list img {
+  height: 163px !important; /* ← ФИКС */
+  width: 80px;
+  object-fit: cover;
+  border-radius: 8px;
 }
-
-.productdisplay-main-img {
+/* .productdisplay-main-img {
   width: 586px;
   height: 700px;
+} */
+.productdisplay-main-img {
+  width: 100% !important;
+  height: 500px !important;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f5f5f5;
 }
+
 .productdisplay-right {
   margin: 0px 70px;
   display: flex;

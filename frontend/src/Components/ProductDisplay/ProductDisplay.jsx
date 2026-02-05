@@ -9,11 +9,18 @@ const ProductDisplay = (props) => {
   const { addToCart } = useContext(ShopContext);
   const [selectedSize, setSelectedSize] = useState(null);
   const [error, setError] = useState("");
+  const [imageError, setImageError] = useState(false);
+
+  const getSafeImage = (imageUrl) => {
+    return imageUrl && !imageError
+      ? imageUrl
+      : "https://via.placeholder.com/500x500/eeeeee/999999?text=Product+Image";
+  };
 
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
-        <div className="productdisplay-img-list">
+        {/* <div className="productdisplay-img-list">
           <img src={product.image} alt="" />
           <img src={product.image} alt="" />
           <img src={product.image} alt="" />
@@ -21,6 +28,24 @@ const ProductDisplay = (props) => {
         </div>
         <div className="productdisplay-img">
           <img className="productdisplay-main-img" src={product.image} alt="" />
+        </div> */}
+        <div className="productdisplay-img-list">
+          {[1, 2, 3, 4].map((i) => (
+            <img
+              key={i}
+              src={getSafeImage(product.image)}
+              alt={`Product ${i}`}
+              onError={() => setImageError(true)}
+            />
+          ))}
+        </div>
+        <div className="productdisplay-img">
+          <img
+            className="productdisplay-main-img"
+            src={getSafeImage(product.image)}
+            alt={product.name}
+            onError={() => setImageError(true)}
+          />
         </div>
       </div>
 
@@ -77,7 +102,7 @@ const ProductDisplay = (props) => {
             }
             addToCart(product.id, selectedSize);
             console.log(
-              `product ${product.id} added with ${selectedSize} size`
+              `product ${product.id} added with ${selectedSize} size`,
             );
           }}
         >

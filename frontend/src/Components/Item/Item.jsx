@@ -1,40 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Item.css";
 
 const Item = (props) => {
-  const fixImageUrl = (imageUrl) => {
-    // Если фото недоступно — показываем placeholder
-    const placeholder =
-      "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=No+Image";
-
-    if (
-      !imageUrl ||
-      imageUrl.includes("localhost") ||
-      imageUrl.includes("404")
-    ) {
-      return placeholder;
-    }
-
-    // Твой Render URL
-    return imageUrl.includes("e-commerce-2-kyct")
-      ? imageUrl
-      : imageUrl.replace(
-          "http://localhost:4000",
-          "https://e-commerce-2-kyct.onrender.com",
-        );
-  };
+  const [imageError, setImageError] = useState(false);
 
   return (
     <div className="item">
       <Link to={`/product/${props.id}`}>
         <img
-          onClick={window.scrollTo(0, 0)}
-          src={fixImageUrl(props.image)}
+          src={
+            props.image ||
+            "https://via.placeholder.com/300x400/eeeeee/999999?text=Product"
+          }
           alt={props.name}
           onError={(e) => {
+            setImageError(true); // Только ОДИН раз
             e.target.src =
-              "https://via.placeholder.com/300x400/f8f9fa/6c757d?text=No+Image";
+              "https://via.placeholder.com/300x400/eeeeee/999999?text=Product";
+          }}
+          style={{
+            display: imageError ? "block" : "block",
+            minHeight: "350px",
+            objectFit: "cover",
           }}
         />
       </Link>

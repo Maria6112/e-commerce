@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./CartItems.css";
 import { Link } from "react-router-dom";
 
@@ -8,6 +8,22 @@ import remove_icon from "../Assets/cart_cross_icon.png";
 const CartItems = () => {
   const { getTotalCartAmount, all_product, cartItems, removeFromCart } =
     useContext(ShopContext);
+
+  const [imageError, setImageError] = useState({});
+  const handleImageError = (productId) => {
+    setImageError((prev) => ({
+      ...prev,
+      [productId]: true,
+    }));
+  };
+  const getCartImage = (imageUrl, productId) => {
+    if (imageError[productId]) {
+      return "https://via.placeholder.com/60x60/eeeeee/999999?text=Item";
+    }
+    return (
+      imageUrl || "https://via.placeholder.com/60x60/eeeeee/999999?text=Item"
+    );
+  };
 
   return (
     <div className="cartitems">
@@ -32,7 +48,11 @@ const CartItems = () => {
             key={`${product.id}-${size}`}
             className="cartitems-format cartitems-format-main"
           >
-            <img src={product.image} alt="" className="carticon-product-icon" />
+            <img
+              src={getCartImage(product.image, product.id)}
+              alt={product.name}
+              className="carticon-product-icon"
+            />
             <p>{product.name}</p>
             <p>{size}</p>
             <p>${product.new_price}</p>
